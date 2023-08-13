@@ -1,5 +1,5 @@
 
-import TextFields from "./components/textFields"
+import TextFields from "./components/inputFields"
 // import './App.css'
 
 function App() {

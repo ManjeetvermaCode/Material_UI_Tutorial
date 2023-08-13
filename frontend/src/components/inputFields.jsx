@@ -1,13 +1,14 @@
 //Text Fields let users enter and edit text.
 import { useState } from 'react'
-import {TextField,Typography,FormGroup,Checkbox,FormControlLabel} from '@mui/material'
+import {TextField,Typography,FormGroup,Checkbox,FormControlLabel,FormControl,InputLabel,MenuItem,Select,FormLabel,RadioGroup,Radio} from '@mui/material'
 
 export default function TextFields(){
 const [input,setinput]=useState({
     name:'',
     email:'',
     password:'',
-    subscribe:false
+    subscribe:false,
+    age:0
 })
 
 const handleChange=(e)=>{//it will get call everytime there's a change
@@ -26,25 +27,45 @@ const handleSubmit=(e)=>{//on form submit
 
     return (
         <>
-        <h1>Input fields</h1>
+        <h1>Text fields</h1>
             <form onSubmit={handleSubmit}>
             <TextField name='name' type='text' placeholder='Name' sx={{margin:3}} variant='outlined' onChange={handleChange} />
             <TextField name='email' type='email' placeholder='Email' sx={{margin:3}} variant='standard' onChange={handleChange}/>
             <TextField name='password' type='password' placeholder='Password' sx={{margin:3}} variant='filled' onChange={handleChange}/>
             {/* CheckBox */}
 
-            <h1>Checkbox</h1>
+            <h1>Checkbox (Checkboxes allow the user to select one or more items from a set.)</h1>
 
             <FormGroup sx={{display:'flex',flexDirection:'row'}}>
                 <FormControlLabel onChange={()=>{setinput((e)=>({...e,subscribe:true}))}} control={<Checkbox/>} label="Label" />
                 {/* handling inline change */}
             </FormGroup>
-            <button type='submit'>Submit</button>
+
+            <h1>DropDown (allow to select one option from many options)</h1>
+    <FormControl fullWidth>
+                <InputLabel >Age</InputLabel>
+        <Select name='age'value={input.age} label="Age"onChange={handleChange}>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+    </FormControl>
+
+    <h1>Rodio Button (used for single selection from multiple options )</h1>
+
+<FormControl sx={{display:'flex',flexDirection:'row'}}>
+    <FormLabel >Gender</FormLabel>
+
+  <RadioGroup  defaultValue="female" name="gender" onChange={handleChange}>
+    <FormControlLabel value="female" control={<Radio />} label="Female" />
+    <FormControlLabel value="male" control={<Radio />} label="Male" />
+    <FormControlLabel value="other" control={<Radio />} label="Other" />
+  </RadioGroup>
+</FormControl>
+
+            <button sx={{display:'block'}} type='submit'>Submit</button>
             </form>
         </>
     )
 }
 
-//Type specifieds the type of input the TextField is suppose to take
-//(outlined,standard,filled) are the variant types
-//TextField also takes onChange event handler for handling input change
