@@ -1,71 +1,78 @@
-//Text Fields let users enter and edit text.
-import { useState } from 'react'
-import {TextField,Typography,FormGroup,Checkbox,FormControlLabel,FormControl,InputLabel,MenuItem,Select,FormLabel,RadioGroup,Radio} from '@mui/material'
+import { useState } from "react"
+import { TextField,InputLabel,Select,MenuItem,FormControl,FormControlLabel,FormLabel,RadioGroup,Radio,FormGroup,Checkbox } from "@mui/material"
 
-export default function TextFields(){
-const [input,setinput]=useState({
-    name:'',
-    email:'',
-    password:'',
-    subscribe:false,
-    age:0
-})
+export default function TextFields() {
+    const [input,setinput]=useState({
+        name:'',
+        email:'',
+        password:'',
+        age:0,
+        gender:null,
+    })
 
-const handleChange=(e)=>{//it will get call everytime there's a change
-    setinput((prestate)=>(//This ensures that the existing state's properties are retained in the new state.
-      {
-        ...prestate,
-        [e.target.name]:e.target.value//e.target.name will result to it's output, for example [e.target.name] of email field will result to email which will be set to its value i.e entered field value.
-      }
-    ))
-}
+const [checked,setchecked]=useState(false)
 
-const handleSubmit=(e)=>{//on form submit
-    e.preventDefault();
-    console.log(input)
-}
+    const handleCheckboxChange=(e)=>{
+        return setchecked(e.target.checked)
+    }
 
-    return (
+    const handleChange=(e)=>{
+        setinput((preele)=>(
+            {
+                ...preele,
+                [e.target.name]:e.target.value
+                
+            }
+        ))
+    }
+
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+       
+        console.log(checked)
+    }
+
+   
+
+    return(
         <>
-        <h1>Text fields</h1>
-            <form onSubmit={handleSubmit}>
-            <TextField name='name' type='text' placeholder='Name' sx={{margin:3}} variant='outlined' onChange={handleChange} />
-            <TextField name='email' type='email' placeholder='Email' sx={{margin:3}} variant='standard' onChange={handleChange}/>
-            <TextField name='password' type='password' placeholder='Password' sx={{margin:3}} variant='filled' onChange={handleChange}/>
-            {/* CheckBox */}
+        <form onSubmit={handleSubmit}>
+            <h3>Input Fields</h3>
+            <TextField sx={{margin:'10px'}} name="name" onChange={handleChange} size="large" id="outlined-basic" label="Name" type="text" variant="outlined" />
+            <TextField sx={{margin:'10px',}} name="email"size="small" onChange={handleChange} id="filled-basic" label="Email" type="email" variant="filled" />
+            <TextField sx={{margin:'10px'}} name="password" size="large" onChange={handleChange} id="standard-basic" label="Password" type="password" variant="standard" />
+            
+            <h3>DropDown List</h3>
+            <FormControl fullWidth>
+                <InputLabel>Age</InputLabel>
+                    <Select name='age' label="Age" onChange={handleChange}  value={input.age} >
+                        <MenuItem  value={10} defaultChecked>Ten</MenuItem>
+                        <MenuItem  value={20} name='age'>Twenty</MenuItem>
+                        <MenuItem value={30} name='age'>Thirty</MenuItem>
+                    </Select>
+            </FormControl>
 
-            <h1>Checkbox (Checkboxes allow the user to select one or more items from a set.)</h1>
+            <h3>Radio List</h3>
 
-            <FormGroup sx={{display:'flex',flexDirection:'row'}}>
-                <FormControlLabel onChange={()=>{setinput((e)=>({...e,subscribe:true}))}} control={<Checkbox/>} label="Label" />
-                {/* handling inline change */}
-            </FormGroup>
+            <FormControl>
+                <FormLabel >Gender</FormLabel>
+                    <RadioGroup onChange={handleChange} value={input.gender}  defaultValue="female" name="gender">
+                        <FormControlLabel value="female" control={<Radio />} label="Female" />
+                        <FormControlLabel value="male" control={<Radio />} label="Male" />
+                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                </RadioGroup>
+            </FormControl>
 
-            <h1>DropDown (allow to select one option from many options)</h1>
-    <FormControl fullWidth>
-                <InputLabel >Age</InputLabel>
-        <Select name='age'value={input.age} label="Age"onChange={handleChange}>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-    </FormControl>
+            <h3>checkBox</h3>
 
-    <h1>Rodio Button (used for single selection from multiple options )</h1>
+            <Checkbox checked={checked} onChange={handleCheckboxChange}/>
+           
 
-<FormControl sx={{display:'flex',flexDirection:'row'}}>
-    <FormLabel >Gender</FormLabel>
 
-  <RadioGroup  defaultValue="female" name="gender" onChange={handleChange}>
-    <FormControlLabel value="female" control={<Radio />} label="Female" />
-    <FormControlLabel value="male" control={<Radio />} label="Male" />
-    <FormControlLabel value="other" control={<Radio />} label="Other" />
-  </RadioGroup>
-</FormControl>
-
-            <button sx={{display:'block'}} type='submit'>Submit</button>
-            </form>
+            <button type="submit">Submit</button>
+        </form>
         </>
     )
-}
 
+}
